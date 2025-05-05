@@ -21,6 +21,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public Page<RestaurantDTO> findRestaurants(String page, String search) {
+        log.info("Retrieving restaurants");
         int pageNumber = parsePageParameter(page);
 
         Pageable pageable = PageRequest.of(pageNumber - 1, 4);
@@ -28,14 +29,16 @@ public class RestaurantServiceImpl implements RestaurantService {
         Page<Restaurant> restaurantPage;
 
         if (search != null && !search.isEmpty()) {
+            log.info("Searching for restaurants when search parameter is not absent and is: {}", search);
             restaurantPage = restaurantRepository.findByNameContainingIgnoreCase(search, pageable);
         } else {
+            log.info("Searching for restaurants when search parameter is absent");
             restaurantPage = restaurantRepository.findAll(pageable);
         }
 
         if (restaurantPage.getTotalPages() > 0 && pageNumber >= restaurantPage.getTotalPages()) {
             pageable = PageRequest.of(restaurantPage.getTotalPages() - 1, 4);
-
+            log.warn("Getting last page because user entered wrong parameters");
             if (search != null && !search.isEmpty()) {
                 restaurantPage = restaurantRepository.findByNameContainingIgnoreCase(search, pageable);
             } else {

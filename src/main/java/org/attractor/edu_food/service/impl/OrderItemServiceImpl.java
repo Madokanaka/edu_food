@@ -23,6 +23,7 @@ public class OrderItemServiceImpl implements OrderItemService {
 
     @Override
     public List<OrderItemDTO> findItemsByOrderId(Long orderId) {
+        log.info("Finding items by order id {}", orderId);
         Order order = orderService.getOrderById(orderId);
         List<OrderItem> items = repository.findOrderItemsByOrder(order);
 

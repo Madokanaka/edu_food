@@ -38,6 +38,7 @@ public class OrderServiceImpl implements OrderService {
             log.warn("Cannot create order: cart is empty");
         }
 
+        log.info("Creating order");
         User user = userService.findByEmail(userAuth.getUsername());
         Order order = new Order();
         order.setUser(user);
@@ -62,6 +63,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDTO> getUserOrders(User user) {
+        log.info("Retrieving user orders");
         List<Order> orders = orderRepository.findByUserOrderByCreatedAtDesc(user);
         return orders.stream()
                 .map(this::convertToDTO)
@@ -70,11 +72,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order getOrderById(Long orderId) {
+        log.info("Getting order by id {}", orderId);
         return orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found: " + orderId));
     }
 
     @Override
     public OrderDTO getOrderDtoById(Long orderId, org.springframework.security.core.userdetails.User user) {
+        log.info("Getting orderDTO by id {}", orderId);
         Order order = getOrderById(orderId);
         if (!order.getUser().getEmail().equals(user.getUsername())) {
             throw new NoAccessException("You can't access order of another person");
