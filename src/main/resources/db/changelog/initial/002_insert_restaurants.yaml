@@ -1,0 +1,105 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-insert-restaurants
+      author: Seitek
+      changes:
+        - insert:
+            tableName: restaurants
+            columns:
+              - column:
+                  name: name
+                  value: "La Trattoria"
+              - column:
+                  name: description
+                  value: "Итальянский ресторан с уютной атмосферой и блюдами, приготовленными по традиционным рецептам."
+
+        - insert:
+            tableName: restaurants
+            columns:
+              - column:
+                  name: name
+                  value: "Sushi Bar Tokyo"
+              - column:
+                  name: description
+                  value: "Японский ресторан, специализирующийся на свежих суши и роллах, идеально подходящих для любителей японской кухни."
+
+        - insert:
+            tableName: restaurants
+            columns:
+              - column:
+                  name: name
+                  value: "Bistro Parisien"
+              - column:
+                  name: description
+                  value: "Французский бистро с разнообразием классических французских блюд и вин из лучших регионов Франции."
+
+        - insert:
+            tableName: restaurants
+            columns:
+              - column:
+                  name: name
+                  value: "Steak House Grill"
+              - column:
+                  name: description
+                  value: "Ресторан, специализирующийся на стейках высшего качества и оригинальных гарнирах в атмосфере уюта и комфорта."
+
+        - insert:
+            tableName: restaurants
+            columns:
+              - column:
+                  name: name
+                  value: "Taco Loco"
+              - column:
+                  name: description
+                  value: "Мексиканский ресторан с острыми тако, буррито и настоящими блюдами мексиканской кухни."
+
+        - insert:
+            tableName: restaurants
+            columns:
+              - column:
+                  name: name
+                  value: "Peking Duck House"
+              - column:
+                  name: description
+                  value: "Ресторан китайской кухни с фокусом на утку по-пекински и другие традиционные китайские блюда."
+
+        - insert:
+            tableName: restaurants
+            columns:
+              - column:
+                  name: name
+                  value: "The Vegan Corner"
+              - column:
+                  name: description
+                  value: "Веганский ресторан, предлагающий вкусные и полезные блюда, не содержащие животных продуктов."
+
+        - insert:
+            tableName: restaurants
+            columns:
+              - column:
+                  name: name
+                  value: "Pasta Fresca"
+              - column:
+                  name: description
+                  value: "Итальянская паста ручной работы, которую можно сочетать с различными соусами и начинками."
+
+        - insert:
+            tableName: restaurants
+            columns:
+              - column:
+                  name: name
+                  value: "Mamma Mia!"
+              - column:
+                  name: description
+                  value: "Ресторан итальянской кухни с пиццей, пастой и домашними десертами, как в настоящей маминой кухне."
+
+        - insert:
+            tableName: restaurants
+            columns:
+              - column:
+                  name: name
+                  value: "Le Petit Café"
+              - column:
+                  name: description
+                  value: "Кафе в французском стиле, где подают свежие круассаны, пироги и другие французские угощения."
+

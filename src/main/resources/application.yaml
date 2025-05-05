@@ -40,9 +40,8 @@ logging:
         stat: error
       springframework:
         security: debug
-    kg:
       attractor:
-        quiz_platform: debug
+        edu_food: debug
     web: info
     sql: error
   logback:

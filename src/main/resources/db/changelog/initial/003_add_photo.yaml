@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20240502-01-add-photo-name
+      author: your_name
+      changes:
+        - addColumn:
+            tableName: restaurants
+            columns:
+              - column:
+                  name: photo_name
+                  type: varchar(255)
