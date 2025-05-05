@@ -1,9 +1,15 @@
 package org.attractor.edu_food.controller;
 
+import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
+import org.attractor.edu_food.dto.DishDTO;
 import org.attractor.edu_food.model.Cart;
+import org.attractor.edu_food.model.Order;
 import org.attractor.edu_food.service.CartService;
 import org.attractor.edu_food.service.DishService;
+import org.attractor.edu_food.service.OrderService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -13,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/cart")
@@ -21,18 +28,21 @@ public class CartController {
 
     private final CartService cartService;
     private final DishService dishService;
+    private final OrderService orderService;
 
     @PostMapping("/add")
     public String addToCart(
             @RequestParam Long dishId,
             @RequestParam int quantity,
             @CookieValue(value = "cart", required = false) String cartCookie,
-            HttpServletResponse response
+            HttpServletResponse response,
+            RedirectAttributes redirectAttributes
     ) {
         Cart cart = cartService.getCartFromCookie(cartCookie);
         cartService.addToCart(dishId, quantity, cart, response);
-        Long restaurantId = dishService.findById(dishId).getRestaurantId();
-        return "redirect:/restaurants/" + restaurantId;
+        DishDTO dish = dishService.findById(dishId);
+        redirectAttributes.addFlashAttribute("success", "Dish " + dish.getName() + " added to the cart");
+        return "redirect:/restaurants/" + dish.getRestaurantId();
     }
 
     @GetMapping
@@ -68,5 +78,31 @@ public class CartController {
         Cart cart = cartService.getCartFromCookie(cartCookie);
         cartService.updateQuantity(dishId, quantity, cart, response);
         return "redirect:/cart";
+    }
+
+    @PostMapping("/makeOrder")
+    public String makeOrder(
+            @CookieValue(value = "cart", required = false) String cartCookie,
+            @AuthenticationPrincipal User user,
+            HttpServletResponse response,
+            RedirectAttributes redirectAttributes
+    ) {
+        Cart cart = cartService.getCartFromCookie(cartCookie);
+        if (cart.getItems().isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", "Cannot create order: cart is empty");
+            return "redirect:/cart";
+        }
+        try {
+            Order order = orderService.createOrderFromCart(cart, user);
+            Cookie cookie = new Cookie("cart", "");
+            cookie.setPath("/");
+            cookie.setMaxAge(0);
+            response.addCookie(cookie);
+            redirectAttributes.addFlashAttribute("success", "Order created successfully! Order ID: " + order.getId());
+            return "redirect:/profile";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Failed to create order: " + e.getMessage());
+            return "redirect:/cart";
+        }
     }
 }

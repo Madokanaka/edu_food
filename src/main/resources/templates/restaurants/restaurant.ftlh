@@ -1,5 +1,15 @@
 <#import "../layout.ftlh" as layout>
 <@layout.layout>
+    <style>
+        .alert {
+            background-color: #7bac6d;
+            border-color: #579e53;
+            color: #178007;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
     <h2>${restaurant.name}</h2>
     <p>${restaurant.description}</p>
     <#if restaurant.photoName??>
@@ -8,6 +18,13 @@
     </#if>
 
     <h3>Menu</h3>
+
+    <#if success??>
+        <div class="alert" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>${success}
+        </div>
+    </#if>
+
     <#if dishes?has_content>
 
         <div class="row">
