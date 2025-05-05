@@ -16,3 +16,4 @@ public class DishDTO {
     private BigDecimal price;
     private Long restaurantId;
 }
+

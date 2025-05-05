@@ -36,7 +36,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">Рестораны</a>
+            <a class="navbar-brand" href="/restaurants">EduFood</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -44,12 +44,20 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/restaurants">Restaurants</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cart">
+                            Cart
+                            <#if totalItems?? && totalItems gt 0>
+                                <span class="badge bg-primary ms-1">${totalItems}</span>
+                            </#if>
+                        </a>
+                    </li>
                 </ul>
 
                 <#if userPr??>
-                    <a href="/profile" class="text-light m-2 m-sm-0">
-                        Hello, ${name}:
-                    </a>
                     <#if _csrf??>
                         <form action="/logout" method="post">
                             <input type="hidden" name="${(_csrf.parameterName)!'csrf'}"
