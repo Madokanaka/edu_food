@@ -41,6 +41,10 @@ public class CartController {
         Cart cart = cartService.getCartFromCookie(cartCookie);
         cartService.addToCart(dishId, quantity, cart, response);
         DishDTO dish = dishService.findById(dishId);
+        if (quantity < 1) {
+            redirectAttributes.addFlashAttribute("error", "Количество не может быть отрицательным");
+            return "redirect:/restaurants/" + dish.getRestaurantId();
+        }
         redirectAttributes.addFlashAttribute("success", "Блюдо " + dish.getName() + " было добавлено в тележку");
         return "redirect:/restaurants/" + dish.getRestaurantId();
     }

@@ -9,6 +9,16 @@
             border-radius: 5px;
             margin-bottom: 20px;
         }
+
+
+        .alert-error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
     </style>
     <h2>${restaurant.name}</h2>
     <p>${restaurant.description}</p>
@@ -22,6 +32,12 @@
     <#if success??>
         <div class="alert" role="alert">
             <i class="fas fa-exclamation-circle me-2"></i>${success}
+        </div>
+    </#if>
+
+    <#if error??>
+        <div class="alert-error" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>${error}
         </div>
     </#if>
 
