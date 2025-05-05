@@ -24,6 +24,11 @@ public class DishServiceImpl implements DishService {
         Pageable pageable = PageRequest.of(pageNumber - 1, 10);
         log.info("Fetching dishes for restaurant id: {}, page: {}", restaurantId, pageNumber);
         Page<Dish> dishPage = dishRepository.findByRestaurantId(restaurantId, pageable);
+        if (dishPage.getTotalPages() > 0 && pageNumber >= dishPage.getTotalPages()) {
+            pageable = PageRequest.of(dishPage.getTotalPages() - 1, 10);
+            dishPage = dishRepository.findByRestaurantId(restaurantId, pageable);
+        }
+
         return dishPage.map(this::convertToDTO);
     }
 
