@@ -34,7 +34,7 @@
                         <div class="card-body">
                             <h5 class="card-title">${dish.name}</h5>
                             <p class="card-text">${dish.description}</p>
-                            <p class="card-text"><strong>Price:</strong> ${dish.price} USD</p>
+                            <p class="card-text"><strong>Price:</strong> ${dish.price} СОМ</p>
                             <form action="/cart/add" method="post">
                                 <input type="hidden" name="dishId" value="${dish.id}">
                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

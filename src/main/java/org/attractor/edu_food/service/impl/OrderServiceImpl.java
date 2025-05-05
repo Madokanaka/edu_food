@@ -2,6 +2,9 @@ package org.attractor.edu_food.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.attractor.edu_food.dto.OrderDTO;
+import org.attractor.edu_food.dto.OrderItemDTO;
+import org.attractor.edu_food.exceptions.ResourceNotFoundException;
 import org.attractor.edu_food.model.Cart;
 import org.attractor.edu_food.model.CartItem;
 import org.attractor.edu_food.model.Dish;
@@ -14,6 +17,10 @@ import org.attractor.edu_food.service.OrderService;
 import org.attractor.edu_food.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +42,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
         order.setUser(user);
         order.setCreatedAt(java.time.LocalDateTime.now());
+        order.setTotalPrice(BigDecimal.valueOf(cart.getTotalPrice()));
 
         for (CartItem cartItem : cart.getItems()) {
             Dish dish = dishRepository.findById(cartItem.getDishId())
@@ -50,5 +58,26 @@ public class OrderServiceImpl implements OrderService {
         Order savedOrder = orderRepository.save(order);
         log.info("Created order {} for user {}", savedOrder.getId(), user.getEmail());
         return savedOrder;
+    }
+
+    @Override
+    public List<OrderDTO> getUserOrders(User user) {
+        List<Order> orders = orderRepository.findByUserOrderByCreatedAtDesc(user);
+        return orders.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Order getOrderById(Long orderId) {
+        return orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found: " + orderId));
+    }
+
+    private OrderDTO convertToDTO(Order order) {
+        return new OrderDTO(
+                order.getId(),
+                order.getCreatedAt(),
+                order.getTotalPrice()
+        );
     }
 }

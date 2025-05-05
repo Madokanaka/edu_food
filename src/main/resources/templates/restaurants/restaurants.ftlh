@@ -1,6 +1,6 @@
 <#import "../layout.ftlh" as layout>
 <@layout.layout>
-    <h2>Restaurants</h2>
+    <h2>Рестораны</h2>
     <form class="mb-4" action="/restaurants" method="get">
         <div class="input-group">
             <input type="text" class="form-control" name="search" value="${search!''}" placeholder="Search restaurants by name...">

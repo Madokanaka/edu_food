@@ -45,11 +45,11 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="/restaurants">Restaurants</a>
+                        <a class="nav-link" href="/restaurants">Рестораны</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/cart">
-                            Cart
+                            Корзина
                             <#if totalItems?? && totalItems gt 0>
                                 <span class="badge bg-primary ms-1">${totalItems}</span>
                             </#if>

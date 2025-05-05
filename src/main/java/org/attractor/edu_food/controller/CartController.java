@@ -41,7 +41,7 @@ public class CartController {
         Cart cart = cartService.getCartFromCookie(cartCookie);
         cartService.addToCart(dishId, quantity, cart, response);
         DishDTO dish = dishService.findById(dishId);
-        redirectAttributes.addFlashAttribute("success", "Dish " + dish.getName() + " added to the cart");
+        redirectAttributes.addFlashAttribute("success", "Блюдо " + dish.getName() + " было добавлено в тележку");
         return "redirect:/restaurants/" + dish.getRestaurantId();
     }
 
@@ -89,7 +89,7 @@ public class CartController {
     ) {
         Cart cart = cartService.getCartFromCookie(cartCookie);
         if (cart.getItems().isEmpty()) {
-            redirectAttributes.addFlashAttribute("error", "Cannot create order: cart is empty");
+            redirectAttributes.addFlashAttribute("error", "Нельзя создать заказ, корзина пуста");
             return "redirect:/cart";
         }
         try {
@@ -98,10 +98,10 @@ public class CartController {
             cookie.setPath("/");
             cookie.setMaxAge(0);
             response.addCookie(cookie);
-            redirectAttributes.addFlashAttribute("success", "Order created successfully! Order ID: " + order.getId());
+            redirectAttributes.addFlashAttribute("success", "Заказ создан успешно. ID заказа: " + order.getId());
             return "redirect:/profile";
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Failed to create order: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("error", "Создание заказа неуспешно: " + e.getMessage());
             return "redirect:/cart";
         }
     }

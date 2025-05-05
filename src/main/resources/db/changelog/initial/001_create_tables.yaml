@@ -103,6 +103,11 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: total_price
+                  type: DECIMAL(10,2)
+                  constraints:
+                    nullable: false
+              - column:
                   name: user_id
                   type: BIGINT
                   constraints:
