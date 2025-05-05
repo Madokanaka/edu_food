@@ -58,6 +58,9 @@
                 </ul>
 
                 <#if userPr??>
+                    <a href="/profile" class="text-light m-2 m-sm-0">
+                        Hello, ${name}:
+                    </a>
                     <#if _csrf??>
                         <form action="/logout" method="post">
                             <input type="hidden" name="${(_csrf.parameterName)!'csrf'}"
