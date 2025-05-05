@@ -72,15 +72,4 @@ public class GlobalExceptionHandler {
         model.addAttribute("message", e.getMessage());
         return "errors/error";    }
 
-    @ExceptionHandler(MaxUploadSizeExceededException.class)
-    public String handleMaxUploadSizeExceededException(MaxUploadSizeExceededException ex, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("error", "Файл слишком большой. Максимальный размер файла: 10MB.");
-        return "redirect:/profile";
-    }
-
-    @ExceptionHandler(MultipartException.class)
-    public String handleMultipartException(MultipartException ex, RedirectAttributes redirectAttributes, HttpServletRequest request) {
-        redirectAttributes.addFlashAttribute("error", "Ошибка при загрузке файла: файл слишком большой или повреждён.");
-        return "redirect:/profile";
-    }
 }
