@@ -93,12 +93,12 @@ public class CartController {
             return "redirect:/cart";
         }
         try {
-            Order order = orderService.createOrderFromCart(cart, user);
+            Long order = orderService.createOrderFromCart(cart, user);
             Cookie cookie = new Cookie("cart", "");
             cookie.setPath("/");
             cookie.setMaxAge(0);
             response.addCookie(cookie);
-            redirectAttributes.addFlashAttribute("success", "Заказ создан успешно. ID заказа: " + order.getId());
+            redirectAttributes.addFlashAttribute("success", "Заказ создан успешно. ID заказа: " + order);
             return "redirect:/profile";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Создание заказа неуспешно: " + e.getMessage());

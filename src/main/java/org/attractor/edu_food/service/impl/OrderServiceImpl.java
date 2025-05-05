@@ -3,7 +3,7 @@ package org.attractor.edu_food.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.attractor.edu_food.dto.OrderDTO;
-import org.attractor.edu_food.dto.OrderItemDTO;
+import org.attractor.edu_food.exceptions.NoAccessException;
 import org.attractor.edu_food.exceptions.ResourceNotFoundException;
 import org.attractor.edu_food.model.Cart;
 import org.attractor.edu_food.model.CartItem;
@@ -33,7 +33,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public Order createOrderFromCart(Cart cart, org.springframework.security.core.userdetails.User userAuth) {
+    public Long createOrderFromCart(Cart cart, org.springframework.security.core.userdetails.User userAuth) {
         if (cart.getItems().isEmpty()) {
             log.warn("Cannot create order: cart is empty");
         }
@@ -57,7 +57,7 @@ public class OrderServiceImpl implements OrderService {
 
         Order savedOrder = orderRepository.save(order);
         log.info("Created order {} for user {}", savedOrder.getId(), user.getEmail());
-        return savedOrder;
+        return savedOrder.getId();
     }
 
     @Override
@@ -71,6 +71,15 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order getOrderById(Long orderId) {
         return orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found: " + orderId));
+    }
+
+    @Override
+    public OrderDTO getOrderDtoById(Long orderId, org.springframework.security.core.userdetails.User user) {
+        Order order = getOrderById(orderId);
+        if (!order.getUser().getEmail().equals(user.getUsername())) {
+            throw new NoAccessException("You can't access order of another person");
+        }
+        return convertToDTO(order);
     }
 
     private OrderDTO convertToDTO(Order order) {

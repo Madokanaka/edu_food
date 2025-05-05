@@ -43,7 +43,7 @@ public class SecurityConfig {
                         .permitAll())
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/profile", "/cart/makeOrder").hasAuthority("USER")
+                        .requestMatchers("/profile", "/cart/makeOrder", "/orders/**").hasAuthority("USER")
                         .anyRequest().permitAll()
                 );
         return http.build();

@@ -8,9 +8,12 @@ import org.springframework.security.core.userdetails.User;
 import java.util.List;
 
 public interface OrderService {
-    Order createOrderFromCart(Cart cart, User user);
+    Long createOrderFromCart(Cart cart, User user);
 
     List<OrderDTO> getUserOrders(org.attractor.edu_food.model.User user);
 
     Order getOrderById(Long orderId);
+
+    OrderDTO getOrderDtoById(Long orderId, User user);
+
 }
