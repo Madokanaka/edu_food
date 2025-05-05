@@ -35,17 +35,7 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .loginPage("/auth/login")
                         .loginProcessingUrl("/auth/login")
-//                        .successHandler((request, response, authentication) -> {
-//                            if (authentication.getAuthorities().stream()
-//                                    .anyMatch(auth -> auth.getAuthority().equalsIgnoreCase("APPLICANT"))) {
-//                                response.sendRedirect("/vacancies");
-//                            } else if (authentication.getAuthorities().stream()
-//                                    .anyMatch(auth -> auth.getAuthority().equalsIgnoreCase("EMPLOYER"))) {
-//                                response.sendRedirect("/resumes");
-//                            } else {
-//                                response.sendRedirect("/profile");
-//                            }
-//                        })
+                        .defaultSuccessUrl("/restaurants", true)
                         .failureUrl("/auth/login?error=true")
                         .permitAll())
                 .logout(logout -> logout
@@ -53,9 +43,8 @@ public class SecurityConfig {
                         .permitAll())
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(authorize -> authorize
-                                .anyRequest().permitAll()
-
-//                        .anyRequest().authenticated()
+                        .requestMatchers("/profile", "/cart/makeOrder").authenticated()
+                        .anyRequest().permitAll()
                 );
         return http.build();
     }
