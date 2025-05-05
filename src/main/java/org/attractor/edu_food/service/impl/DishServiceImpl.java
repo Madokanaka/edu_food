@@ -3,6 +3,7 @@ package org.attractor.edu_food.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.attractor.edu_food.dto.DishDTO;
+import org.attractor.edu_food.exceptions.ResourceNotFoundException;
 import org.attractor.edu_food.model.Dish;
 import org.attractor.edu_food.repository.DishRepository;
 import org.attractor.edu_food.service.DishService;
@@ -30,6 +31,12 @@ public class DishServiceImpl implements DishService {
         }
 
         return dishPage.map(this::convertToDTO);
+    }
+
+    @Override
+    public DishDTO findById(Long id) {
+        Dish dish = dishRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Dish not found"));
+        return convertToDTO(dish);
     }
 
     private DishDTO convertToDTO(Dish dish) {

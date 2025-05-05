@@ -5,4 +5,6 @@ import org.springframework.data.domain.Page;
 
 public interface DishService {
     Page<DishDTO> findDishesByRestaurantId(Long restaurantId, String page);
+
+    DishDTO findById(Long id);
 }
